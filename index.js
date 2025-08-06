@@ -7,7 +7,7 @@ const connectdb=require("./db/db-connect")
 const cookieParser=require("cookie-parser")
 const path=require('path')
 const todoRoutes=require('./route/todoRoute')
-const path = require("path");
+
 const cors = require('cors')
 
 
