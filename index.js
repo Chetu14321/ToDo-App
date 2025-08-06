@@ -6,37 +6,26 @@ const app=express()
 const connectdb=require("./db/db-connect")
 const cookieParser=require("cookie-parser")
 const path=require('path')
-const todoRoutes=require('./route/todoRoute')
 
 const cors = require('cors')
 
 
-app.use(cors({
-  origin: 'http://localhost:3000', // your React frontend URL
-  credentials: true, // enable sending cookies
-}));
 
 
 // import cors from 'cors';
-// app.use(cors()); // this line must be before any routes
+app.use(cors()); // this line must be before any routes
 
 app.use(express.static("./client/build"))
 app.use(express.static("./build"))
 
-
-app.use(express.static(path.join(__dirname, 'client', 'build')));
-
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "client/build", "index.html"));
-});
-
 app.use(cookieParser(process.env.SECRET_KEY))
 
 
-app.use(express.json())
+
 // Middleware to parse JSON request bodies
 app.use(express.urlencoded({ extended: true }))
-// app.use(express.json())
+app.use(express.json())
+
 
 
 //index route
@@ -52,10 +41,13 @@ app.get("/",async(req,res)=>{
 
 //api route
 app.use(`/api/auth`,require('./route/auth.route'))
-app.use('/api/todos', todoRoutes);
+app.use(`/api/todos`,require('./route/todoRoute'))
 
 
-
+//default routes
+app.all("/*",async(req,res)=>{
+    return res.status(StatusCodes.NOT_FOUND).json({ message:"requested path not found"})
+})
 app.listen(PORT,function(){
     connectdb()
     console.log(`Server is running at http://localhost:${PORT}`)
