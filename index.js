@@ -45,7 +45,7 @@ app.use(`/api/todos`,require('./route/todoRoute'))
 
 
 //default routes
-app.all("/*",async(req,res)=>{
+app.all("/",async(req,res)=>{
     return res.status(StatusCodes.NOT_FOUND).json({ message:"requested path not found"})
 })
 app.listen(PORT,function(){
