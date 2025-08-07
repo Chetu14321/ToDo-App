@@ -15,9 +15,8 @@ const cors = require('cors')
 // import cors from 'cors';
 app.use(cors()); // this line must be before any routes
 
-// app.use(express.static("./client/build"))
-// app.use(express.static("./build"))
-app.use(express.static(path.join(__dirname, "client", "build")));
+app.use(express.static("./client/build"))
+app.use(express.static("./build"))
 
 
 app.use(cookieParser(process.env.SECRET_KEY))
